@@ -1,0 +1,2 @@
+class GameweeksController < ApplicationController
+end

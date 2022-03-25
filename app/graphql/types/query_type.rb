@@ -21,5 +21,59 @@ module Types
     def users
       User.all 
     end
+
+    field :players,
+    [Types::PlayerType],
+    null: false,
+    description: "Return a list of Players"
+
+    def players
+      Player.all 
+    end
+
+    field :gameweeks,
+    [Types::GameweekType],
+    null: false,
+    description: "Return a list of Gameweeks"
+
+    def gameweeks
+      Gameweek.all 
+    end
+
+    field :player_gameweek_joiners,
+    [Types::PlayerGameweekJoinerType],
+    null: false,
+    description: "Return a list of PGJs"
+
+    def player_gameweek_joiners
+      PlayerGameweekJoiner.all 
+    end
+
+    field :user_gameweek_joiners,
+    [Types::UserGameweekJoinerType],
+    null: false,
+    description: "Return a list of UGJs"
+
+    def user_gameweek_joiners
+      UserGameweekJoiner.all 
+    end
+
+    field :messages,
+    [Types::MessageType],
+    null: false,
+    description: "Return a list of messages"
+
+    def messages
+      Message.all 
+    end
+
+    field :records,
+    [Types::RecordType],
+    null: false,
+    description: "Return a list of records"
+
+    def player_gameweek_joiners
+      Record.all 
+    end
   end
 end
