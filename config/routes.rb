@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  root 'admin_user#index'
+  root 'admin_users#welcome'
 
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
