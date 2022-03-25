@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  resources :records
+  resources :messages
+  resources :user_gameweek_joiners
+  resources :player_gameweek_joiners
+  resources :gameweeks
+  resources :players
 
   root 'admin_users#welcome'
 

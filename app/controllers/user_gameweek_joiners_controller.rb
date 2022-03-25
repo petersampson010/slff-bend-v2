@@ -1,0 +1,2 @@
+class UserGameweekJoinersController < ApplicationController
+end
