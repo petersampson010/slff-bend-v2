@@ -7,6 +7,9 @@ class GraphqlController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def execute
+    puts 'beginning graphql execute'
+    puts params
+    puts params[:variables]
     variables = prepare_variables(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
@@ -15,6 +18,8 @@ class GraphqlController < ApplicationController
       # current_user: current_user,
     }
     result = SlffBendV2Schema.execute(query, variables: variables, context: context, operation_name: operation_name)
+    puts 'result'
+    puts result
     render json: result
   rescue StandardError => e
     raise e unless Rails.env.development?
