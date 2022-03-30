@@ -35,8 +35,10 @@ module HelperModule
         puts 'auth header: ' + auth_header
         token = auth_header.split(' ').last if auth_header
         puts 'auth token: ' + token
+        puts 'are we hitting'
         begin
-            puts JWT.decode(token, Rails.application.secrets.seecret_key_base, 'HS256')
+            puts 'decode here'
+            puts JWT.decode(token, Rails.application.secrets.secret_key_base, 'HS256')
             @decoded = jwt_decode(token)
             puts 'decoded'
             puts @decoded
