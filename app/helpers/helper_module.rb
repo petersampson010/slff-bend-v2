@@ -35,6 +35,8 @@ module HelperModule
         puts 'auth header: ' + auth_header
         token = auth_header.split(' ').last if auth_header
         puts 'auth token: ' + token
+        puts ENV["RAILS_ENV"]
+        puts ENV["MY_KEY"]
         puts 'are we hitting'
         begin
             puts 'decode here'
