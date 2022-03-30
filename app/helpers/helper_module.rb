@@ -38,7 +38,7 @@ module HelperModule
         puts 'are we hitting'
         begin
             puts 'decode here'
-            puts JWT.decode(token, Rails.application.secrets.secret_key_base, 'HS256')
+            puts JWT.decode('eyJhbGciOiJIUzI1NiJ9.eyJhZG1pbl91c2VyX2lkIjoxLCJleHAiOjE2NDkyNDM0NDV9.BQgpcUfhX3lVcbB30WErzDuumaI4hWLifj_1W5NT9A8', Rails.application.secrets.secret_key_base, 'HS256')
             @decoded = jwt_decode(token)
             puts 'decoded'
             puts @decoded
