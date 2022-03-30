@@ -37,6 +37,7 @@ module HelperModule
         # puts 'auth token: ' + token
         # puts ENV["RAILS_ENV"]
         # puts ENV["MY_KEY"]
+        puts ENV["RAILS_ENV"]
         puts ENV["FIGARO_SET_GMAIL_USERNAME"]
         puts 'are we hitting'
         begin
