@@ -37,6 +37,8 @@ module HelperModule
         puts 'auth token: ' + token
         begin
             @decoded = jwt_decode(token)
+            puts 'decoded'
+            puts @decoded
             if @decoded["user_id"] 
                 @current_user = User.find(@decoded["user_id"])
             else 
