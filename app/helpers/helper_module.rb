@@ -22,11 +22,11 @@ module HelperModule
 
     def jwt_encode(payload, expiration = 7.days.from_now.to_i)
         payload[:exp] = expiration
-        return JWT.encode(payload, Rails.application.secrets.secret_key_base, 'HS256')
+        return JWT.encode(payload, ENV["SECRET_KEY_BASE"], 'HS256')
     end 
 
     def jwt_decode(token)
-        return JWT.decode(token, Rails.application.secrets.secret_key_base, 'HS256')[0]
+        return JWT.decode(token, ENV["SECRET_KEY_BASE"], 'HS256')[0]
     end 
 
     def authenticate_request
