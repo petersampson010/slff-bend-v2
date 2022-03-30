@@ -1,0 +1,5 @@
+Hi <%= @admin_user.club_name  %>,
+
+Thanks for registering! To confirm your registration click the URL below.
+
+<%= confirm_email_admin_user_url(@admin_user.confirm_token) %>
