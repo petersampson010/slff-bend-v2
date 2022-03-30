@@ -36,6 +36,7 @@ module HelperModule
         token = auth_header.split(' ').last if auth_header
         puts 'auth token: ' + token
         begin
+            puts JWT.decode(token, Rails.application.secrets.seecret_key_base, 'HS256')
             @decoded = jwt_decode(token)
             puts 'decoded'
             puts @decoded
