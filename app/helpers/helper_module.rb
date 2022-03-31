@@ -31,15 +31,14 @@ module HelperModule
 
     def authenticate_request
         puts '**** AUTHENTICATING ****'
-        # auth_header = request.headers["Authorization"]
-        # puts 'auth header: ' + auth_header
-        # token = auth_header.split(' ').last if auth_header
-        # puts 'auth token: ' + token
-        # puts ENV["RAILS_ENV"]
-        # puts ENV["MY_KEY"]
+        auth_header = request.headers["Authorization"]
+        puts 'auth header: ' + auth_header
+        token = auth_header.split(' ').last if auth_header
+        puts 'auth token: ' + token
+        puts ENV["RAILS_ENV"]
+        puts ENV["MY_KEY"]
         puts ENV["RAILS_ENV"]
         puts ENV["SET_GMAIL_USERNAME"]
-        puts ENV["FIGARO_SET_GMAIL_USERNAME"]
         puts 'are we hitting'
         begin
             puts 'decode here'
