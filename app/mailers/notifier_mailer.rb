@@ -9,6 +9,7 @@ class NotifierMailer < ApplicationMailer
         puts 'inside au_reg_conf'
         puts admin_user.email
         puts ENV["SET_API_URL"]
+        @admin_user = admin_user
         mail(:to => "#{admin_user.email}", :subject => "Registration Confirmation")
     end
 
