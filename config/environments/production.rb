@@ -67,7 +67,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   config.action_mailer.delivery_method = :smtp
-  host = 'https://slff-bend-production.herokuapp.com/' #replace with your own url
+  host = ENV["SET_API_URL"] #replace with your own url
   config.action_mailer.default_url_options = { host: host }
 
   # SMTP settings for gmail
