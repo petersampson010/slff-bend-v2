@@ -20,13 +20,21 @@ module HelperModule
 
     private 
 
+    def key 
+        if ENV["RAILS_ENV"] === 'development'
+            return Rails.application.secrets.secret_key_base
+        else 
+            return ENV["SECRET_KEY_BASE"]
+        end 
+    end 
+
     def jwt_encode(payload, expiration = 7.days.from_now.to_i)
         payload[:exp] = expiration
-        return JWT.encode(payload, ENV["SECRET_KEY_BASE"], 'HS256')
+        return JWT.encode(payload, key, 'HS256')
     end 
 
     def jwt_decode(token)
-        return JWT.decode(token, ENV["SECRET_KEY_BASE"], 'HS256')[0]
+        return JWT.decode(token, key, 'HS256')[0]
     end 
 
     def authenticate_request
@@ -36,9 +44,8 @@ module HelperModule
         token = auth_header.split(' ').last if auth_header
         puts 'auth token: ' + token
         puts ENV["RAILS_ENV"]
-        puts ENV["MY_KEY"]
-        puts ENV["RAILS_ENV"]
         puts ENV["SET_GMAIL_USERNAME"]
+        puts key
         puts 'are we hitting'
         begin
             puts 'decode here'
