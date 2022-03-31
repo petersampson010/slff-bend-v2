@@ -46,7 +46,7 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :smtp
   host = ENV["SET_API_URL"]
-  config.action_mailer.default_url_options = { :host => ENV["SET_API_URL"], protocol: 'http' }
+  config.action_mailer.default_url_options = { :host => host, protocol: 'http' }
   config.action_mailer.smtp_settings = {
     :user_name => ENV["SET_GMAIL_USERNAME"],
     :password => ENV["SET_GMAIL_KEY"],
