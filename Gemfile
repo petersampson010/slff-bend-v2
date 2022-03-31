@@ -68,3 +68,5 @@ gem 'jwt'
 gem 'bcrypt'
 
 gem 'mail'
+
+gem 'figaro'
