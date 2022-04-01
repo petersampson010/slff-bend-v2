@@ -13,7 +13,9 @@ class UsersController < ApplicationController
         @user = User.new(user_params)
         confirmation_token(@user)
         if @user.save
-            NotifierMailer.registration_confirmation(@user).deliver_now
+            if ENV["SET_MAIL"]
+                NotifierMailer.registration_confirmation(@user).deliver_now
+            end
             puts "Please confirm your email address to continue"
             token = jwt_encode({user_id: @user.user_id})
             render json: {user: @user, token: token}
