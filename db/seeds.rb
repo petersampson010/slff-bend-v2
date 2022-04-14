@@ -1,4 +1,4 @@
-AdminUser.create(email: 'test', password: 'test', club_name: 'Ricers FC');
+# Create the AU in app beforee seeding 
 
 Player.create(first_name: 'Mac', last_name: 'Daddy', position: 1, price: 67, availability: 'a', admin_user_id: 1);
 Player.create(first_name: 'Mad', last_name: 'Steve', position: 1, price: 88, availability: 'a', admin_user_id: 1);
