@@ -38,32 +38,36 @@ module HelperModule
     end 
 
     def authenticate_request
-        puts '**** AUTHENTICATING ****'
-        auth_header = request.headers["Authorization"]
-        puts 'auth header: ' + auth_header
-        token = auth_header.split(' ').last if auth_header
-        puts 'auth token: ' + token
-        puts 'are we hitting'
-        begin
-            puts 'decode here'
-            # puts JWT.decode('eyJhbGciOiJIUzI1NiJ9.eyJhZG1pbl91c2VyX2lkIjoxLCJleHAiOjE2NDkyNDM0NDV9.BQgpcUfhX3lVcbB30WErzDuumaI4hWLifj_1W5NT9A8', Rails.application.secrets.secret_key_base, 'HS256')
-            @decoded = jwt_decode(token)
-            puts 'decoded'
-            puts @decoded
-            if @decoded["user_id"] 
-                @current_user = User.find(@decoded["user_id"])
-            else 
-                @current_user = AdminUser.find(@decoded["admin_user_id"])
-            end
-        rescue ActiveRecord::RecordNotFound => e
-            puts  e
-            puts e.message
-            render json: { errors: e.message }, status: :unauthorized
-        rescue JWT::DecodeError => e
-            puts  e
-            puts e.message
+        if ENV["ST_JWT_AUTH"] 
+            puts '**** AUTHENTICATING ****'
+            auth_header = request.headers["Authorization"]
+            puts 'auth header: ' + auth_header
+            token = auth_header.split(' ').last if auth_header
+            puts 'auth token: ' + token
+            puts 'are we hitting'
+            begin
+                puts 'decode here'
+                # puts JWT.decode('eyJhbGciOiJIUzI1NiJ9.eyJhZG1pbl91c2VyX2lkIjoxLCJleHAiOjE2NDkyNDM0NDV9.BQgpcUfhX3lVcbB30WErzDuumaI4hWLifj_1W5NT9A8', Rails.application.secrets.secret_key_base, 'HS256')
+                @decoded = jwt_decode(token)
+                puts 'decoded'
+                puts @decoded
+                if @decoded["user_id"] 
+                    @current_user = User.find(@decoded["user_id"])
+                else 
+                    @current_user = AdminUser.find(@decoded["admin_user_id"])
+                end
+            rescue ActiveRecord::RecordNotFound => e
+                puts  e
+                puts e.message
+                render json: { errors: e.message }, status: :unauthorized
+            rescue JWT::DecodeError => e
+                puts  e
+                puts e.message
 
-            render json: { errors: e.message }, status: :unauthorized
+                render json: { errors: e.message }, status: :unauthorized
+            end
+        else 
+            puts 'Auth config switched off'
         end
     end 
 

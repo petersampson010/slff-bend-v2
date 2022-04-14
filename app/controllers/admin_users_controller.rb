@@ -12,7 +12,9 @@ class AdminUsersController < ApplicationController
             @admin_user = AdminUser.new(admin_user_params)
             confirmation_token(@admin_user)
             if @admin_user.save
-                NotifierMailer.au_registration_confirmation(@admin_user).deliver_now
+                if ENV["SET_MAIL"]
+                    NotifierMailer.au_registration_confirmation(@admin_user).deliver_now
+                end
                 token = jwt_encode({admin_user_id: @admin_user.admin_user_id})
                 render json: {admin_user: @admin_user, token: token}
             else
