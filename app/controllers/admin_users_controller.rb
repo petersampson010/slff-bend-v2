@@ -2,7 +2,7 @@ class AdminUsersController < ApplicationController
     include HelperModule
     skip_before_action :authenticate_request, only: [:create, :index, :sign_in, :confirm_email]
     
-    
+    # make unaccessible for production and creeate a show so specific AU can be accessed
         def index 
             admin_users = AdminUser.all
             render json: find_from_params(admin_users, admin_user_params)
@@ -27,15 +27,19 @@ class AdminUsersController < ApplicationController
             puts params
             puts admin_user_params
             @admin_user = AdminUser.find_by_email(admin_user_params[:email])
-            if @admin_user 
-                if @admin_user.authenticate(admin_user_params[:password])
-                    token = jwt_encode({admin_user_id: @admin_user.admin_user_id})
-                    render json: {admin_user: @admin_user, token: token}
+            if @admin_user
+                if @admin_user.admin_user_id === @current_user.admin_user_id
+                    if @admin_user.authenticate(admin_user_params[:password])
+                        token = jwt_encode({admin_user_id: @admin_user.admin_user_id})
+                        render json: {admin_user: @admin_user, token: token}
+                    else 
+                        render json: 'Incorrect Password'
+                    end 
                 else 
-                    render json: {errors: ['Incorrect Password']}
+                    render json: "Token not matching user"
                 end 
-            else 
-                render json: {errors: ['Incorrect Email']}
+            else
+                render json: 'Incorrect Email'
             end 
         end
     

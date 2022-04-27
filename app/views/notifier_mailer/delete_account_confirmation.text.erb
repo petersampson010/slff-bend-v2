@@ -1,0 +1,5 @@
+Hi <%= @user.team_name  %>,
+
+We have recieved a request to delete your account. If you would like to go ahead with this request, please click the link below
+
+<%= cancel_email_user_url(@user.confirm_token) %>

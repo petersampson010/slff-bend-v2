@@ -17,20 +17,24 @@ class PlayerGameweekJoinersController < ApplicationController
             end 
         end 
     
-        def update
-            @player_gameweek_joiner = PlayerGameweekJoiner.find(params[:id])
-            if @player_gameweek_joiner.update(pg_joiner_params)
-                render json: @player_gameweek_joiner
-            else 
-                render json: @player_gameweek_joiner.errors.full_messages
-            end 
-        end 
+        # def update
+        #     @player_gameweek_joiner = PlayerGameweekJoiner.find(params[:id])
+        #     if @player_gameweek_joiner.update(pg_joiner_params)
+        #         render json: @player_gameweek_joiner
+        #     else 
+        #         render json: @player_gameweek_joiner.errors.full_messages
+        #     end 
+        # end 
     
         def destroy 
             player_gameweek = PlayerGameweekJoiner.find(params[:id])
-            if @player_gameweek_joiner.delete
+            if player_gameweek.gameweek.complete 
+                render json: "Cannot delete PGJ when gameweek is complete"
             else 
-                render json: @player_gameweek.errors.full_messages
+                if @player_gameweek_joiner.delete
+                else 
+                    render json: @player_gameweek.errors.full_messages
+                end
             end
         end 
     

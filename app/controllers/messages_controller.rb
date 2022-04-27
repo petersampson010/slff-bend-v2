@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
     include HelperModule
-    skip_before_action :authenticate_request, only: [:index, :send_email, :please_work]
+    skip_before_action :authenticate_request, only: [:index, :send_email]
     
     
         def index

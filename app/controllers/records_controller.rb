@@ -17,31 +17,41 @@ class RecordsController < ApplicationController
             end 
         end 
     
-        def update
-            @record = Record.find(params[:id])
-            if @record.update(record_params)
-                render json: @record
-            else 
-                render json: @record.errors.full_messages
-            end 
-        end
+        # def update
+        #     @record = Record.find(params[:id])
+        #     if @record.update(record_params)
+        #         render json: @record
+        #     else 
+        #         render json: @record.errors.full_messages
+        #     end 
+        # end
     
         def custom_update
-            records = Record.all
-            puts request.GET
-            record = find_from_params(records, request.GET)[0]
-            puts record.player_id 
-            puts request.POST.except!("record")
-            record.update(request.POST.except!("record"))
-            puts record
-            render json: record
+            @record = find_from_params(Record.all, request.GET)[0]
+            if @record.gameweek.complete
+                render json: "Cannot update record when gameweek is complete"
+            else 
+                if @admin_user_token
+                    render json: "AU cannot update record"
+                else 
+                    if @record.update(request.POST.except!("record"))
+                        render json: @record
+                    else
+                        render json: @record.errors.full_messages
+                    end 
+                end 
+            end
         end
     
         def destroy
             @record = Record.find(params[:id])
-            if @record.delete
+            if @record.gameweek.complete
+                render json: "Cannot delete record once the gameweek is complete"
             else 
-                render json: @record.errors.full_messages
+                if @record.delete
+                else 
+                    render json: @record.errors.full_messages
+                end 
             end 
         end 
     

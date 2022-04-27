@@ -19,22 +19,27 @@ class PlayersController < ApplicationController
             end 
         end 
     
-        def  update 
+        def update 
             player = Player.find(params[:id])
-            if @player.update(player_params)
+            if @admin_user_token
+                prms = player_au_update_params
+            else 
+                prms = player_params
+            end 
+            if @player.update(prms)
                 render json: @player
             else 
                 render json: @player.errors.full_messages
             end 
         end
     
-        def destroy 
-            @player = Player.find(params[:id])
-            if @player.delete
-            else 
-                render json: @player.errors.full_messages
-            end
-        end 
+        # def destroy 
+        #     @player = Player.find(params[:id])
+        #     if @player.delete
+        #     else 
+        #         render json: @player.errors.full_messages
+        #     end
+        # end 
     
         def stats 
             player = Player.find(params[:p_id])
@@ -64,6 +69,10 @@ class PlayersController < ApplicationController
     
         def player_params 
             params.permit(:player_id, :first_name, :last_name, :position, :price, :availability, :admin_user_id)
+        end 
+
+        def player_au_update_params 
+            params.permit(:first_name, :last_name, :price, :availability)
         end 
     end
     

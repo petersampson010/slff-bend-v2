@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
     include HelperModule
     # before_create :confirmation_token
-    skip_before_action :authenticate_request, only: [:create, :sign_in, :index, :confirm_email]
+    # skip_before_action :authenticate_request, only: [:create, :sign_in, :index, :confirm_email]
 
     def index
         puts request.headers["Authorization"]
@@ -31,26 +31,35 @@ class UsersController < ApplicationController
         puts @user
         puts 'user above'
         if @user 
-            if @user.authenticate(user_params[:password])
-                puts 'authenticated'
-                token = jwt_encode({user_id: @user.user_id})
-                puts token;
-                render json: {user: @user, token: token}
-            else 
-                render json: {errors: ['Incorrect Password']}
-            end 
+            if @user.user_id === @current_user.user_id 
+                if @user.authenticate(user_params[:password])
+                    puts 'authenticated'
+                    token = jwt_encode({user_id: @user.user_id})
+                    puts token;
+                    render json: {user: @user, token: token}
+                else 
+                    render json: 'Incorrect Password'
+                end 
+            else
+                render json: "Token not matching user"
+            end
         else 
-            render json: {errors: ['Incorrect Email']}
+            render json: 'Incorrect Email'
         end 
     end
 
     def update
         @user = User.find(params[:id])
-        if @user.update(user_params)
+        if @admin_user_token 
+            prms = user_params_transfers
+        else 
+            prms = user_params
+        end 
+        if @user.update(prms)
             render json: @user
         else 
             render json: @user.errors.full_messages
-        end 
+        end
     end
 
     def destroy 
@@ -90,8 +99,12 @@ class UsersController < ApplicationController
         end
     end
 
-    def user_params 
+    def user_params
         params.permit(:user_id, :email, :team_name, :password, :password_confirmation, :transfers, :budget, :gw_start, :admin_user_id)
+    end 
+
+    def user_params_transfers
+        params.permit(:tranfers)
     end 
 
 end

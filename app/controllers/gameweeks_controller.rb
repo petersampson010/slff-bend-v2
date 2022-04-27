@@ -19,19 +19,27 @@ class GameweeksController < ApplicationController
     
         def update
             @gameweek = Gameweek.find(params[:id])
-            if @gameweek.update(gameweek_params)
-                render json: @gameweek
-            else 
-                render json: @gameweek.errors.full_messages
-            end 
+            if @gameweek.complete
+                render json: "Cannot update gameweek once it is complete"
+            else
+                if @gameweek.update(gameweek_params)
+                    render json: @gameweek
+                else 
+                    render json: @gameweek.errors.full_messages
+                end 
+            end
         end 
     
         def destroy 
             @gameweek = Gameweek.find(gameweek_params[:id])
-            if @gameweek.delete
-            else 
-                render json: @gameweek.errors.full_messages
-            end 
+            if @gameweek.complete
+                render json: "Cannot delete gameweek once it is complete"
+            else
+                if @gameweek.delete
+                else 
+                    render json: @gameweek.errors.full_messages
+                end 
+            end    
         end 
     
         private
