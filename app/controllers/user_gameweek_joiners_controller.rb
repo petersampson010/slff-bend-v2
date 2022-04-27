@@ -30,9 +30,12 @@ class UserGameweekJoinersController < ApplicationController
             @user_gameweek_joiner = UserGameweekJoiner.find(params[:id])
             if @user_gameweek_joiner.gameweek.complete 
                 render json: "Cannot delete completed UGJ when gameweek is complete"
-            if @user_gameweek_joiner.delete
             else 
-                render json: @user_gameweek_joiner.errors.full_messages
+                if @user_gameweek_joiner.delete
+                    render json: "Success"
+                else 
+                    render json: @user_gameweek_joiner.errors.full_messages
+                end 
             end 
         end 
     
